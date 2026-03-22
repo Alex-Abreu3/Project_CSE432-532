@@ -47,7 +47,21 @@ By completing this project you will be able to:
 
 One of the goals of this project is to give you hands-on experience with workflows that mirror real-world software development. This goes beyond ML — it includes how you manage your code and collaborate.
 
-- **Stay in sync with the upstream repository.** Parts of this README and project materials may be updated during the semester. Make it a habit to regularly run `git pull` on your local repository so you always have the latest information.
+- **Stay in sync with the upstream repository.** Since you forked this repo, your fork does not automatically receive updates. Parts of this README and project materials may be updated during the semester. To pull in those changes, add the original repository as an upstream remote (you only need to do this once):
+
+  ```bash
+  git remote add upstream <URL-of-the-original-repo>
+  ```
+
+  Then, whenever you want to sync:
+
+  ```bash
+  git fetch upstream
+  git merge upstream/main      # or upstream/master, depending on the branch name
+  ```
+
+  To clarify the two remotes: **`origin`** is _your_ fork — this is where you push your weekly commits and do all of your day-to-day work. **`upstream`** is _this_ parent repository — changes here will be infrequent and mostly limited to updates to this README, but when they happen you will want to pull them in using the commands above.
+
 - **Use proper, atomic commits.** Each commit should capture a single logical change — implementing a new feature, fixing a bug, adding a visualization, etc. Do not treat Git as a backup tool where you dump large snapshots of your entire project at once. A clear, incremental commit history shows how your work evolved and demonstrates genuine understanding.
 - **Write meaningful commit messages.** A good commit message briefly describes _what_ changed and _why_. This is a professional skill that pays dividends in any collaborative environment.
 
