@@ -28,6 +28,15 @@ In this semester-long project, you will build an end-to-end **Speech Emotion Rec
 
 A unique component of this project is that you will develop your own lightweight ML toolkit — a Python package called **MiniLearn** — that implements core algorithms from scratch. You will use this package alongside scikit-learn in your SER experiments.
 
+### Project Structure
+
+This project has two main components that work together:
+
+1. **`minilearn/`** — Your from-scratch ML library. This is where you implement algorithms, preprocessing utilities, metrics, etc.
+2. **`notebooks/`** — Your analysis notebooks. Each week you will create a Jupyter notebook in this folder where you apply your MiniLearn implementations (and their scikit-learn counterparts) to the SER data, run experiments, generate visualizations, and write up your analysis.
+
+A starter notebook is provided in the `notebooks/` folder to get you going. Think of `minilearn/` as the _engine_ and `notebooks/` as _where you drive it_.
+
 > **Important:** We are working exclusively with the **audio** portion of the RAVDESS dataset. You will **not** use any video or facial expression data. All your work should focus on extracting information from the audio signal only.
 
 ### Learning Objectives
