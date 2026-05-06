@@ -14,7 +14,7 @@ class LinearRegression:
         self.weights = np.zeros(n_features)
         self.bias = 0
 
-        for i in range(self.n_iternations):
+        for i in range(self.n_iterations):
             y_pred = self._predict(X)
 
             dw = (1/n_samples) * np.dot(X.T, (y_pred-y))
