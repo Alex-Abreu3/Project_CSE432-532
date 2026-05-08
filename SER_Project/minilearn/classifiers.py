@@ -33,7 +33,7 @@ class LogisticRegression:
         y_encoded = np.array([self.label_to_idx[label] for label in y])
 
         #initialize weights and bias to zero 
-        self.weights = np.zero((n_features, n_classes))
+        self.weights = np.zeros((n_features, n_classes))
         self.bias = np.zeros(n_classes)
 
         #convert integar labels to one hot encoded matrix for loss computation
@@ -67,7 +67,7 @@ class LogisticRegression:
         y_pred = self._softmax(z)
         # select the class with the hightest probability for each sample
         y_idx = np.argmax(y_pred, axis=1)
-        return np.array([self.calsses_[idx] for idx in y_idx])
+        return np.array([self.classes_[idx] for idx in y_idx])
     def score(self, X, y):
         #calculate accuracy as the fraction of correctly predicted labels
         return np.mean(self.predict(X)==y)
