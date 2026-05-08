@@ -203,4 +203,10 @@ class SVM:
     def score(self, X,y):
         #calculate accuracy as fraction of correct predictions
         return np.mean(self.predict(X)==y)
-        
+
+class DecisionTree:
+    def __init__(self,max_depth=10, min_samples_split=2):
+        self.max_depth = max_depth
+        self.min_samples_split = min_samples_split
+        self.root = None
+    
