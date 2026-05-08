@@ -155,4 +155,52 @@ class KNearestNeighbors:
     def score(self, X,y):
         #calculate accuracy ad fraction of correct predictions
         return np.mean(self.predict(X)==y)
+
+class SVM:
+    def __init__(self, learning_rate=0.001, lambda_param=0.01, n_iterations=1000):
+        self.learning_rate = learning_rate
+        self.lambda_param = lambda_param
+        self.n_iterations = n_iterations
+        self.weights = None
+        self.bias = None
+        self.classes_ = None
+    def fit(self, X, y):
+        #get all unique classes
+        self.classes_ = np.unique(y)
+        n_samples, n_features = X.shape
+        # store one set of weights per class
+        self.weights = np.zeros((len(self.classes_), n_features))
+        self.bias = np.zeros(len(self.classes_))
+
+        # train a binary classifier for each class against all others
+        for idx,cls in enumerate(self.classes_):
+            #convery lables to +1 for this class and -1 for all others
+            y_binary = np.where(y==cls, 1,-1).astype(float)
+
+            w = np.zeros(n_features)
+            b = 0
+
+            #graident decent loop
+            for _ in range(self.n_iterations):
+                for i, x_i in enumerate(X):
+                    #check if this sample is corectly classifed with margin
+                    if y_binary[i] * (np.dot(x_i, w) - b) >=1:
+                        w -= self.learning_rate * (2 * self.lambda_param * w)
+                    else:
+                        #misclassifeied - updae weights and bias
+                        w -= self.learning_rate * (2* self.lambda_param * w - np.dot(x_i, y_binary[i]))
+                        b -= self.learning_rate * y_binary[i]
+            self.weights[idx] = w
+            self.bias[idx] = b
+        return self
+    def predict(self, X):
+        #compute scores for each class
+        scores = np.dot(X, self.weights.T) + self.bias
+        #pick the calss with the hightest score of each sample
+        indices = np.argmax(scores, axis=1)
+        return self.classes_[indices]
+    
+    def score(self, X,y):
+        #calculate accuracy as fraction of correct predictions
+        return np.mean(self.predict(X)==y)
         
