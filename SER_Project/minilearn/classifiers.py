@@ -122,5 +122,37 @@ class GuassianNaiveBayers:
         #calculate accuracy ad fraction of correcct prediction
         return np.mean(self.predict(X)==y)
     
-    
+    class KNearestNeighbors:
+        def __init__(self, k=3):
+            self.k = k
+            self.X_train = None
+            self.y_train = None
 
+        def fit(self, X, y):
+            #just memorizes the training set no learning
+            self.X_train = X
+            self.y_train = y
+            return self
+        def _euclidean_distance(self, x1, x2):
+            # calculate the striaght line distance between two points
+            return np.sqrt(np.sum((x1 - x2)**2))
+        
+        def _predict_single(self,x):
+            #compute distance from this sample to every training sample
+            distances = [self._euclidean_distance(x, x_train) for x_train in self.X_train]
+
+            #sort distances and get the indices of the lk closest samples
+            k_indices = np.argsort(distances)[:self.k]
+
+            #get the emotion labels of the k nearest neighbors
+            k_labels = [self.y_train[i] for i in k_indices]
+
+            return max(set(k_labels), key=k_labels.count)
+        def predict(self,X):
+            #predict the emotion for every sample
+            return np.array([self._predict_single(x) for x in X])
+        
+        def score(self, X,y):
+            #calculate accuracy ad fraction of correct predictions
+            return np.mean(self.predict(X)==y)
+        
