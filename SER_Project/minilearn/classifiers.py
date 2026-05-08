@@ -230,7 +230,9 @@ class DecisionTree:
         
         #try every feature and every possible threshold
         for feature in range(X.shape[1]):
-            thresholds = np.unique(X[:, feature])
+            col = X[:, feature]
+            #sample 10 evenly spaced sheshold instead of every unqiue value
+            thresholds = np.linspace(col.min(), col.max(), 10)
 
             for threshold in thresholds:
                 #split data into left and right based on threshold
