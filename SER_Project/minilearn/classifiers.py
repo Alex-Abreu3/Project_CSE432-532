@@ -251,7 +251,7 @@ class DecisionTree:
                     best_gini = weighted_gini
                     best_feature = feature
                     best_threshold = threshold
-        return best_threshold, best_feature
+        return  int(best_feature) if best_feature is not None else None, best_threshold
     
     def _build_tree(self, X, y, depth=0):
         node = self.Node()
