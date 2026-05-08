@@ -209,4 +209,72 @@ class DecisionTree:
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.root = None
+    class Node:
+        def __init__(self):
+            self.feature = None
+            self.threshold = None
+            self.left = None
+            self.right = None
+            self.value = None
+
+    def _gini(self, y):
+        #compute gini impurity, measure how mixed the classes are
+        classes, counts = np.unique(y, return_counts=True)
+        probabilities = counts / len(y)
+        return 1 - np.sum(probabilities**2)
+    
+    def _best_split(self,X,y):
+        best_gini = float('inf')
+        best_feature = None
+        best_threshold = None
+        
+        #try every feature and every possible threshold
+        for feature in range(X.shape[1]):
+            thresholds = np.unique(X[:, feature])
+
+            for threshold in thresholds:
+                #split data into left and right based on threshold
+                left_mask = X[:, feature] <= threshold
+                right_mask = ~left_mask
+
+                if sum(left_mask)==0 or sum(right_mask)==0:
+                    continue
+                
+                #compute weighted gini impurity of the split
+                n = len(y)
+                left_gini = self._gini(y[left_mask])
+                right_gini = self._gini(y[right_mask])
+                weighted_gini = (sum(left_mask)/n * left_gini + sum(right_mask)/n * right_gini)
+
+                #keep track of the best split found so far
+                if weighted_gini < best_gini:
+                    best_gini = weighted_gini
+                    best_feature = feature
+                    best_threshold = threshold
+        return best_threshold, best_feature
+    
+    def _build_tree(self, X, y, depth=0):
+        node = self.Node()
+        # stop growing if max depth reached or not enough samples
+        if depth >= self.max_depth or len(y) < self.min_samples_split or len(np.unique(y)) == 1:
+            node.value = max(set(y.tolist()), key=y.tolist().count)
+            return node
+        #find the best split for this node
+        feature, threshold = self._best_split(X,y)
+
+        if feature is None:
+            node.value = max(set(y.tolist()), key=y.tolist().count)
+            return node
+        
+        #split the data and recursively build left and right subtrees
+        left_mask = X[:, feature] <= threshold
+        right_mask = ~left_mask
+
+        node.feature=feature
+        node.threshold = threshold
+        node.left = self._build_tree(X[left_mask], y[left_mask], depth +1)
+        node.right = self._build_tree(X[right_mask], y[right_mask], depth+1)
+
+        return node
+        
     
