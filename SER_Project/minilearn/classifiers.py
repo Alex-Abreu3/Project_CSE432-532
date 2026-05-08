@@ -72,7 +72,7 @@ class LogisticRegression:
         #calculate accuracy as the fraction of correctly predicted labels
         return np.mean(self.predict(X)==y)
     
-class GuassianNaiveBayers:
+class GaussianNaiveBayes:
     def __init__(self):
         self.classes = None
         self.mean_ = {}
