@@ -276,5 +276,24 @@ class DecisionTree:
         node.right = self._build_tree(X[right_mask], y[right_mask], depth+1)
 
         return node
-        
+    def fit(self, X, y):
+        #build the tree starting from root
+        self.root = self._build_tree(X,y)
+        return self
     
+    def _predict_single(self, x, node):
+        # if the leaf node returned the predicted class
+        if node.value is not None:
+            return node.value
+
+        #otherwise traves left or right based of feature value
+        if x[node.feature] <= node.threshold:
+            return self._predict_single(x, node.left)
+        else:
+            return self._predict_single(x, node.right)
+    def predict(self, X):
+        #predict the class for every sample
+        return np.array([self._predict_single(x,self.root) for x in X])
+    def score(self,X,y):
+        #calculare accuracy as fraction of correct predictions
+        return np.mean(self.predict(X)==y)
