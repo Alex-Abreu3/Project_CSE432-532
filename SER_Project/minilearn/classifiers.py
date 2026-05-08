@@ -71,4 +71,56 @@ class LogisticRegression:
     def score(self, X, y):
         #calculate accuracy as the fraction of correctly predicted labels
         return np.mean(self.predict(X)==y)
+    
+class GuassianNaiveBayers:
+    def __init__(self):
+        self.classes = None
+        self.mean_ = {}
+        self.var_ = {}
+        self.prior_ = {}
+    def fit(self, X,y):
+        # get all unique emotion labels
+        self.classes_ = np.unique(y)
+
+        for cls in self.classes_:
+            #get all smaples belonging to this class
+            X_cls = X[y==cls]
+           # compute mean and varieance of each features for this class
+            self.mean_[cls] = np.mean(X_cls, axis=0)
+            self.var_[cls] = np.var(X_cls, axis=0)
+            # compute prior probability (how common is this emotion in the dataset)
+            self.prior_[cls] = len(X_cls) / len(y)
+        return self
+    def _gaussian_likelihood(self, cls, x):
+        mean = self.mean_[cls]
+        var = self.var_[cls]
+
+        #compute the gaussian probability for each feature given the class
+        numerator = np.exp(-((x - mean)**2)/ (2 * var + 1e-8))
+        denominator = np.sqrt(2 * np.pi * var + 1e-8)
+        return numerator/denominator
+    
+    def _compute_posterior(self, x):
+        posteriors = {}
+
+        for cls in self.classes_:
+            #start with the log of the prior probability
+            prior = np.log(self.prior_[cls])
+
+            #add the log likelihood of each feature given this class
+            likelihood = np.sum(np.log(self._gaussian_likelihood(cls,x) + 1e-8))
+
+            #posterior = prior + likelihood in log space
+            posteriors[cls] = prior + likelihood
+        # retunr the class with the hgihtest posterior probability
+        return max(posteriors, key=posteriors.get)
+    def predict(self,X):
+        #predict the emotoin for each sample
+        return np.array([self._compute_posterior(x) for x in X])
+    
+    def score(self, X, y):
+        #calculate accuracy ad fraction of correcct prediction
+        return np.mean(self.predict(X)==y)
+    
+    
 
