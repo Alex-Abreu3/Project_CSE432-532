@@ -321,7 +321,7 @@ class KMeans:
 
         for iteration in range(self.max_iterations):
             #assign each sample to the nearest centroid
-            self.labels_ - self._assign_clusters(X)
+            self.labels_ = self._assign_clusters(X)
 
             #save old centroids to check for convergence
             old_centroids = self.centroids.copy()
