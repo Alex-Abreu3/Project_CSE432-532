@@ -311,4 +311,31 @@ class KMeans:
         self.centroids = None
         self.labels_ = None
     
-    
+    def fit(self,X):
+        if self.random_state is not None:
+            np.random.seed(self.random_state)
+        
+        #randomly intialize centroids by picking k random samples
+        random_idx = np.random.choice(len(X), self.n_clusters, replace=False)
+        self.centroids = X[random_idx].copy()
+
+        for iteration in range(self.max_iterations):
+            #assign each sample to the nearest centroid
+            self.labels_ - self._assign_clusters(X)
+
+            #save old centroids to check for convergence
+            old_centroids = self.centroids.copy()
+
+            #update centroids to the mean of all samples in eahc cluster
+            for k in range(self.n_clusters):
+                cluster_samples = X[self.labels_ ==k]
+                if len(cluster_samples) >0:
+                    self.centroids[k] = np.mean(cluster_samples, axis=0)
+                
+            #stops if centroid are converged
+            if np.allclose(old_centroids, self.centroids):
+                print(f"Converged at iteration {iteration +1}")
+                break
+        return self
+    def _assign_clusters(self, X):
+        
