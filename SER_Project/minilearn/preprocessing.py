@@ -37,19 +37,19 @@ class KFold:
     
     def split(self, X, y):
         n_samples = len(X)
-        indices = np.arrange(n_samples)
+        indices = np.arange(n_samples)
 
         #shuffle indices if requested
         if self.shuffle:
             if self.random_state is not None:
-                np.random_seed(self.random_state)
+                np.random.seed(self.random_state)
             np.random.shuffle(indices)
         
         #split indices into N_splits equal sized folds
         fold_sizes = np.full(self.n_splits, n_samples// self.n_splits)
         fold_sizes[:n_samples % self.n_splits] += 1
 
-        current = 0 
+        current = 0
         folds = []
 
         for fold_size in fold_sizes:
