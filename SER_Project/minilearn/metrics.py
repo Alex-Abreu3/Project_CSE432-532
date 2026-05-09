@@ -60,3 +60,21 @@ def f1_score(y_true, y_pred, average='marco'):
     if average == 'macro':
         return np.mean(f1_scores)
     return np.array(f1_scores)
+
+def classification_report(y_true, y_pred):
+    cm, classes = confusion_matrix(y_true, y_pred)
+
+    precision = precision_score(y_true, y_pred, average=None)
+    recall = recall_score(y_true, y_pred, average=None)
+    f1 = f1_score(y_true, y_pred, average=None)
+
+    print(f"{'Class':<15} {'Precision':<12} {'Recall':<12} {'F1 Score':<12} {'Support':<10}")
+    print("-" * 60)
+
+    for i, cls in enumerate(classes):
+        support = np.sum(cm[i,:])
+        print(f"{cls:<15} {precision[i]:<12.4f} {recall[i]:<12.4f} {f1[i]:<12.4f} {support:<10}")
+
+    print("-"*60)
+    print(f"{'Accuracy':<15} {'':<12} {accuracy_score(y_true, y_pred):12.4f} {len(y_true):<10}")
+    print(f"{'Macro Avg':<15} {np.mean(precision):<12.4f} { np.mean(recall):<12.4f} {np.mean(f1):<12.4f} { len(y_true):<10}")
