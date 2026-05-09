@@ -30,3 +30,15 @@ class PCA:
         self.explained_variance_ratio_=(self.explained_variance_ / np.sum(eigenvalues))
 
         return self
+
+    def transform(self, X):
+        #center the data using the training mean
+        X_centered = X - self.mean_
+        # project onto principal components
+        return np.dot(X_centered, self.components_.T)
+    
+    def fit_transform (self,X):
+        #fit the transform in one step
+        self.fit(X)
+        return self.transform(X)
+    
