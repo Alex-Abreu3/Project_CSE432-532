@@ -28,3 +28,40 @@ class StandardScaler:
         train_idx = indices[n_test:]
 
         return X[train_idx], X[test_idx], y[train_idx], y[test_idx]
+
+class KFold:
+    def __init__(self, n_splits=5, shuffle=True, random_state=None):
+        self.n_splits = n_splits
+        self.shuffle = shuffle
+        self.random_state = random_state
+    
+    def split(self, X, y):
+        n_samples = len(X)
+        indices = np.arrange(n_samples)
+
+        #shuffle indices if requested
+        if self.shuffle:
+            if self.random_state is not None:
+                np.random_seed(self.random_state)
+            np.random.shuffle(indices)
+        
+        #split indices into N_splits equal sized folds
+        fold_sizes = np.full(self.n_splits, n_samples// self.n_splits)
+        fold_sizes[:n_samples % self.n_splits] += 1
+
+        current = 0 
+        folds = []
+
+        for fold_size in fold_sizes:
+            folds.append(indices[current:current+fold_size])
+            current+=fold_size
+        
+        #yield train and test indices for each fold
+        for i in range(self.n_splits):
+            test_indices = folds[i]
+            train_indices = np.concatenate([folds[j] for j in range(self.n_splits) if j != i])
+            yield train_indices, test_indices
+
+
+
+    
