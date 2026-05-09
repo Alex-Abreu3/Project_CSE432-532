@@ -337,5 +337,18 @@ class KMeans:
                 print(f"Converged at iteration {iteration +1}")
                 break
         return self
+    
     def _assign_clusters(self, X):
-        
+        #compute distance from each sample to every centroid
+        distances = np.array([np.sqrt(np.sum((X-centroid)**2, axis=1)) for centroid in self.centroids])
+        #assign each sample to the nearest centroid
+        return np.argmin(distances, axis=0)
+    
+    def predict(self,X):
+        #assign new samples to nearest Centriod
+        return self._assign_clusters(X)
+    
+    def fit_predict(self, X):
+        #fit and return cluster labels in one step
+        self.fit(X)
+        return self.labels_
