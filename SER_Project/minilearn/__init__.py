@@ -11,3 +11,8 @@ Usage:
 """
 
 __version__ = "0.1.0"
+from . import preprocessing
+from . import classifiers
+from . import regression
+from . import decomposition
+from . import metrics
