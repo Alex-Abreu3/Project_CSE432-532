@@ -302,3 +302,13 @@ class DecisionTree:
     def score(self,X,y):
         #calculare accuracy as fraction of correct predictions
         return np.mean(self.predict(X)==y)
+
+class KMeans:
+    def __init__(self, n_clusters=8, max_iterations=300, random_state=None):
+        self.n_clusters= n_clusters
+        self.max_iterations = max_iterations
+        self.random_state = random_state
+        self.centroids = None
+        self.labels_ = None
+    
+    
