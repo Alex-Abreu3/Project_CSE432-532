@@ -32,3 +32,31 @@ def precision_score(y_true, y_pred, average='macro'):
     if average == 'macro':
         return np.mean(precisions)
     return np.array(precisions)
+
+def recall_score(y_true, y_pred, average='macro'):
+    cm, classes = confusion_matrix(y_true, y_pred)
+
+    recalls = []
+    for i in range(len(classes)):
+        #true postives for this class
+        tp = cm[i,i]
+        #actual for this class
+        fn = np.sum(cm[i,:]) -tp
+        recall = tp/(tp+fn) if (tp + fn) > 0 else 0
+        recalls.append(recall)
+
+    if average ==' macro':
+        return np.mean(recalls)
+    return np.array(recalls)
+
+def f1_score(y_true, y_pred, average='marco'):
+    precision = precision_score(y_true, y_pred, average=None)
+    recall = recall_score(y_true, y_pred, average=None)
+
+    f1_scores = []
+    for p, r in zip(precision, recall):
+        f1 = 2 * (p*r) / (p+r) if (p+r) > 0 else 0
+        f1_scores.append(f1)
+    if average == 'macro':
+        return np.mean(f1_scores)
+    return np.array(f1_scores)
