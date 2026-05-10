@@ -25,3 +25,9 @@ class ANN:
         exp_z = np.exp(z - np.max(z, axis=1, keepdims=True))
         return exp_z / np.sum(exp_z, axis=1, keepdims=True)
     
+    def _one_hot(self, y, n_classes):
+        #convert ingar labels to one hot encoded matrix
+        one_hot = np.zeros((len(y), n_classes))
+        one_hot[np.arange(len(y)),y] =1
+        return one_hot
+    
