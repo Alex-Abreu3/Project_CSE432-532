@@ -13,7 +13,7 @@ def confusion_matrix(y_true, y_pred):
     class_to_idx = {cls: idx for idx, cls in enumerate(classes)}
 
     #building confusion matrix
-    cm= np.zeros((n_classes, n_classes), dtpye=int)
+    cm = np.zeros((n_classes, n_classes), dtype=int)
     for true, pred in zip(y_true, y_pred):
         cm[class_to_idx[true]][class_to_idx[pred]] +=1
     return cm, classes
