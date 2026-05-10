@@ -26,6 +26,12 @@ class PCA:
 
         #keep only the top n_components
         self.components_ = eigenvectors[:, :self.n_components].T
+        
+        #Fix sign Ambiguity
+        max_abs_cols = np.argmax(np.abs(self.components_), axis=1)
+        signs = np.sign(self.components_[range(self.n_components), max_abs_cols])
+        self.components_ *= signs[:, np.newaxis]
+        
         self.explained_variance_ = eigenvalues[:self.n_components]
         self.explained_variance_ratio_=(self.explained_variance_ / np.sum(eigenvalues))
 
