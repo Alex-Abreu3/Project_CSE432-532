@@ -81,4 +81,15 @@ class ANN:
             if (i+1) %100 ==0:
                 print(f"Iteration {i+1}/{self.n_iterations} | Loss: {loss:.4f}")
         return self
+    
+    def predict(self, X):
+        #forward pass
+        z1 = np.dot(X, self.weights1) + self.bias1
+        a1 = self._relu(z1)
+        z2 = np.dot(a1, self.weights2) + self.bias2
+        a2 = self._softmax(z2)
+
+        #pcik class with hightest probability
+        y_idx = np.argmax(a2, axis=1)
+        return np.array([self.classes_[idx] for idx in y_idx])
 
