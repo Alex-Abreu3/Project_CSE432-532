@@ -46,7 +46,7 @@ def recall_score(y_true, y_pred, average='macro'):
         recalls.append(recall)
 
     if average ==' macro':
-        return np.mean(recalls)
+        return float(np.mean(recalls))
     return np.array(recalls)
 
 def f1_score(y_true, y_pred, average='marco'):
