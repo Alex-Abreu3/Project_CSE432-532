@@ -45,11 +45,11 @@ def recall_score(y_true, y_pred, average='macro'):
         recall = tp/(tp+fn) if (tp + fn) > 0 else 0
         recalls.append(recall)
 
-    if average ==' macro':
+    if average =='macro':
         return float(np.mean(recalls))
     return np.array(recalls)
 
-def f1_score(y_true, y_pred, average='marco'):
+def f1_score(y_true, y_pred, average='macro'):
     precision = precision_score(y_true, y_pred, average=None)
     recall = recall_score(y_true, y_pred, average=None)
 
