@@ -12,4 +12,8 @@ class ANN:
         self.classes_ = None
         self.loss_history =[]
     
+    def _relu(self,z):
+        #relu activation returns zero for negative vales z for postive
+        return np.maximum(0, z)
+    
     
