@@ -61,3 +61,15 @@ class ANN:
             #compute cross entropy loss
             loss = -np.mean(np.sum(y_one_hot * np.log(a2 + 1e-8), axis=1))
             self.loss_history.append(loss)
+
+            #backward pass
+            dz2 = a2 - y_one_hot
+            dw2 = (1/n_samples) * np.dot(a1.T, dz2)
+            db2 = (1/n_samples) * np.sum(dz2, axis=0, keepdims=True)
+
+            da1 = np.dot(dz2, self.weights2.T)
+            dz1 = da1 * self._relu_derivative(z1)
+            dw1 = (1/n_samples) * np.dot(X.T, dz1)
+            wb1 = (1/n_samples) * np.sum(dz1, axis=0, keepdims=True)
+
+            
