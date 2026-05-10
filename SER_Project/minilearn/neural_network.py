@@ -70,6 +70,15 @@ class ANN:
             da1 = np.dot(dz2, self.weights2.T)
             dz1 = da1 * self._relu_derivative(z1)
             dw1 = (1/n_samples) * np.dot(X.T, dz1)
-            wb1 = (1/n_samples) * np.sum(dz1, axis=0, keepdims=True)
+            db1 = (1/n_samples) * np.sum(dz1, axis=0, keepdims=True)
 
-            
+            # update weights
+            self.weights2 -= self.learning_rate * dw2
+            self.bias2 -= self.learning_rate * db2
+            self.weights1 -= self.learning_rate * dw1
+            self.bias1 -= self.learning_rate * db1
+
+            if (i+1) %100 ==0:
+                print(f"Iteration {i+1}/{self.n_iterations} | Loss: {loss:.4f}")
+        return self
+
