@@ -50,4 +50,14 @@ class ANN:
         self.weights2 = np.random.randn(self.hidden_size, n_classes) * 0.01
         self.bias2 = np.zeros((1,n_classes))
 
-        
+        #training loop
+        for i in range(self.n_iterations):
+            #forward pass
+            z1 = np.dot(X, self.weights1) + self.bias1
+            a1 = self._relu(z1)
+            z2 = np.dot(a1, self.weights2) + self.bias2
+            a2 = self._softmax(z2)
+
+            #compute cross entropy loss
+            loss = -np.mean(np.sum(y_one_hot * np.log(a2 + 1e-8), axis=1))
+            self.loss_history.append(loss)
