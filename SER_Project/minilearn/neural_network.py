@@ -92,4 +92,8 @@ class ANN:
         #pcik class with hightest probability
         y_idx = np.argmax(a2, axis=1)
         return np.array([self.classes_[idx] for idx in y_idx])
-
+    
+    def score(self, X, y):
+        #calculate accuracy
+        return np.mean(self.predict(X) ==y)
+    
