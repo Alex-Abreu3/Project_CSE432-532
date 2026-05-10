@@ -30,4 +30,16 @@ class ANN:
         one_hot = np.zeros((len(y), n_classes))
         one_hot[np.arange(len(y)),y] =1
         return one_hot
-    
+    def fit(self, X,y):
+        n_samples, n_features = X.shape
+
+        #get all unique emotion labels
+        self.classes_ = np.unique(y)
+        n_classes = len(self.classes_)
+
+        #map string labels to integers
+        self.label_to_idx = {label: idx for idx, label in enumerate(self.classes_)}
+        y_encoded = np.array([self.label_to_idx[label] for label in y])
+        y_one_hot = self._one_hot(y_encoded, n_classes)
+
+        
