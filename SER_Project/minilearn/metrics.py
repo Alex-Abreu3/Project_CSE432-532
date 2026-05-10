@@ -30,7 +30,7 @@ def precision_score(y_true, y_pred, average='macro'):
         precision = tp/ (tp+fp) if (tp+fp) > 0 else 0
         precisions.append(precision)
     if average == 'macro':
-        return np.mean(precisions)
+        return float(np.mean(precisions))
     return np.array(precisions)
 
 def recall_score(y_true, y_pred, average='macro'):
@@ -58,7 +58,7 @@ def f1_score(y_true, y_pred, average='marco'):
         f1 = 2 * (p*r) / (p+r) if (p+r) > 0 else 0
         f1_scores.append(f1)
     if average == 'macro':
-        return np.mean(f1_scores)
+        return float(np.mean(f1_scores))
     return np.array(f1_scores)
 
 def classification_report(y_true, y_pred):
