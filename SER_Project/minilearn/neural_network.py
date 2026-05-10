@@ -16,4 +16,12 @@ class ANN:
         #relu activation returns zero for negative vales z for postive
         return np.maximum(0, z)
     
+    def _relu_derivative(self, z):
+        #derivative of relu 1 where z>0, 0 elswhere
+        return (z > 0).astype(float)
+    
+    def _softmax(self,z):
+        #convert raw scores to probabilities that sum to 1
+        exp_z = np.exp(z - np.max(z, axis=1, keepdims=True))
+        return exp_z / np.sum(exp_z, axis=1, keepdims=True)
     
