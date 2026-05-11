@@ -62,9 +62,6 @@ class KFold:
             train_indices = np.concatenate([folds[j] for j in range(self.n_splits) if j != i])
             yield train_indices, test_indices
 
-class train_test_split(X, y, test_size=0.2, random_state=None, stratify = None):
-    if random_state is not None:
-        np.random.seed(random_state)
-        
+
 
 
