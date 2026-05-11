@@ -62,6 +62,6 @@ class KFold:
             train_indices = np.concatenate([folds[j] for j in range(self.n_splits) if j != i])
             yield train_indices, test_indices
 
+class
 
 
-    
